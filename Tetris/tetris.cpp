@@ -12,12 +12,23 @@ using namespace std;
 float colors[][3] = {
     0.95f, 0.95f, 0.95f,    // gray
     1.0f, 1.0f, 1.0f,       // white
-    0.9f, 0.0f, 0.0f,       // red
-    1.0f, 0.75f, 0.0f,      // yellow
+    1.0f, 0.0f, 0.0f,       // red
+    1.0f, 0.90f, 0.0f,      // yellow
     0.2f, 0.6f, 1.0f,       // blue
     0.0f, 0.8f, 0.4f,       // green
     1.0f, 0.49f, 0.0f,      // orange
     1.0f, 0.0f, 1.0f,       // magenta
+};
+
+float colors2[][3] = {
+    0.95f, 0.95f, 0.95f,    // gray
+    1.0f, 1.0f, 1.0f,       // white
+    0.6f, 0.0f, 0.0f,       // red
+    0.74f, 0.67f, 0.07f,      // yellow
+    0.2f, 0.1f, 0.7f,       // blue
+    0.0f, 0.5f, 0.4f,       // green
+    1.0f, 0.8f, 0.0f,      // orange
+    0.65f, 0.0f, 1.0f,       // magenta
 };
 
 // variables for board, shape and score
@@ -34,7 +45,7 @@ string scoreStr = "Score: 0";
 string highScoreStr = "High Score: 0";
 
 // All helper functions
-void drawSquare(float x, float y, float size, float rgb[3]);
+void drawSquare(float x, float y, float size, int cIndex );
 void newShape();
 void drawBoxes();
 void clearMovingShape();
@@ -98,7 +109,7 @@ void Timer(int m) {
 
 // main function
 int main(int argc, char** argv) {
-    srand(time(0));
+    srand(time(NULL));
     getHighScore();
     int width = 480, height = 480;
 
@@ -125,12 +136,13 @@ int main(int argc, char** argv) {
 }
 
 // Draw Square: makes a sqaure at specified position
-void drawSquare(float x, float y, float size, float rgb[3]) {
+void drawSquare(float x, float y, float size, int cIndex ) {
     glBegin(GL_QUADS);              // 4 vertices will form a quad
-    glColor3f(rgb[0], rgb[1], rgb[2]);
+    glColor3f( colors[cIndex][0], colors[cIndex][1], colors[cIndex][2]);
     glVertex2f(x + size, y + size);
     glVertex2f(x, y + size);
     glVertex2f(x, y);
+    glColor3f(colors2[cIndex][0], colors2[cIndex][1], colors2[cIndex][2]);
     glVertex2f(x + size, y);
     glEnd();
 }
@@ -436,9 +448,9 @@ void drawBoxes() {
 
     for (int a = 0; a < 10; a++) {
         for (int b = 0; b < 20; b++) {
-            drawSquare(a * 24, b * 24, 23, colors[board[a][b]]);
+            drawSquare(a * 24, b * 24, 23, board[a][b] );
             if (board[a][b] == 1) {
-                drawSquare(a * 24, b * 24, 23, colors[currShapeColor]);
+                drawSquare(a * 24, b * 24, 23, currShapeColor );
             }
         }
     }
